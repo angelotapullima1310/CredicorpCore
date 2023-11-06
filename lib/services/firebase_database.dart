@@ -6,11 +6,8 @@ class DataBase {
 
   static const String _collectionKey = 'app';
   static const String _featuresKey = 'features';
-  static const String _statusKey = 'status';
-  static const String _urlKey = 'url_config';
-
-  Stream<DocumentSnapshot<Map<String, dynamic>>> get urlStream =>
-      database!.collection(_urlKey).doc('kzgDz9DQfUwmXK7dhApc').snapshots();
+  static const String _statusKey = 'status'; 
+ 
 
   Stream<DocumentSnapshot<AppStatus>> get statusStream => database!
       .collection(_collectionKey)
@@ -37,4 +34,14 @@ class DataBase {
         toFirestore: (AppFeature data, _) => data.toJson(),
       )
       .snapshots();
+
+  Future<AppFeature> featuresCollection() async {
+    DocumentSnapshot<Map<String, dynamic>> document =
+        await database!.collection(_collectionKey).doc(_featuresKey).get();
+    Map<String, dynamic>? dataSnapshot = document.data();
+    return AppFeature.fromJson(<String, dynamic>{
+      ...dataSnapshot!,
+      'id': document.id,
+    });
+  }
 }

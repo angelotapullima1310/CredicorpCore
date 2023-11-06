@@ -40,6 +40,7 @@ class AppConfigNotifier extends StateNotifier<AppConfig> {
     return DataBase.instance.featuresStream
         .firstWhere((DocumentSnapshot<AppFeature> item) => true);
   }
+  
 
   void onDispose() {
     _timer?.cancel();
